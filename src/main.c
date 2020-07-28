@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     for (i = 0 ; i <= 255 ; i++)
         lignes[i] = SDL_CreateRGBSurface(SDL_HWSURFACE, 640, 1, 32, 0, 0, 0, 0);
 
-    SDL_WM_SetCaption("Dungeon", NULL);
+    SDL_WM_SetCaption(APP_NAME, NULL);
 
     SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 
