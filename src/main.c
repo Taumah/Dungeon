@@ -37,6 +37,15 @@ int main(int argc, char **argv)
     //Wait two seconds
     SDL_Delay( 2000 );
 
+
+    //Destroy window
+    SDL_DestroyWindow( window );
+
+    //Quit SDL subsystems
+    SDL_Quit();
+
+    return 0;
+
     return EXIT_SUCCESS;
 }
 
