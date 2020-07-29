@@ -1,7 +1,7 @@
 #include "include/utils.h"
 
 void getVersion(){
-    printf("pre-alpha 0.0.1")
+    printf("pre-alpha 0.0.1");
 }
 
 void getAuthors(){

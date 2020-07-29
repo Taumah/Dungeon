@@ -1,6 +1,7 @@
 #include "include/main.h"
 
-SDL_Surface *ecran = NULL;
+SDL_Window* window = NULL;
+SDL_Surface* screenSurface = NULL;
 
 
 int main(int argc, char **argv)
@@ -11,57 +12,34 @@ int main(int argc, char **argv)
     SDL_Rect position;
     int i = 0;
 
-    SDL_Init(SDL_INIT_VIDEO);
-
-    ecran = SDL_SetVideoMode(640, 256, 32, SDL_HWSURFACE);
-
-    for (i = 0 ; i <= 255 ; i++)
-        lignes[i] = SDL_CreateRGBSurface(SDL_HWSURFACE, 640, 1, 32, 0, 0, 0, 0);
-
-    SDL_WM_SetCaption(APP_NAME, NULL);
-
-    SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
-
-    for (i = 0 ; i <= 255 ; i++)
+    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
-        position.x = 0; // Les lignes sont à gauche (abscisse de 0)
-        position.y = i; // La position verticale dépend du numéro de la ligne
-        SDL_FillRect(lignes[i], NULL, SDL_MapRGB(ecran->format, i, i, i));
-        SDL_BlitSurface(lignes[i], NULL, ecran, &position);
+        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+        exit(EXIT_FAILURE);
     }
 
-    SDL_Flip(ecran);
-    pause();
+    window = SDL_CreateWindow( APP_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_W, WINDOW_H, SDL_WINDOW_SHOWN );
+    if( window == NULL )
+    {
+        printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        exit(EXIT_FAILURE);
+    }
 
-    for (i = 0 ; i <= 255 ; i++) // N'oubliez pas de libérer les 256 surfaces
-        SDL_FreeSurface(lignes[i]);
-    SDL_Quit();
+    //Get window surface
+    screenSurface = SDL_GetWindowSurface( window );
+
+    //Fill the surface white
+    SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
+
+    //Update the surface
+    SDL_UpdateWindowSurface( window );
+
+    //Wait two seconds
+    SDL_Delay( 2000 );
 
     return EXIT_SUCCESS;
 }
 
-void pause()
-{
-    int continuer = 1;
-    SDL_Event event;
-
-    // static int r= 10;
-    // static int g= 10;
-    // static int b= 10;
-    while (continuer)
-    {
-        SDL_WaitEvent(&event);
-        switch(event.type)
-        {
-            case SDL_QUIT:
-                continuer = 0;
-        }
-
-        // printf("%d" , r);
-
-
-    }
-}
 
 void prog_init(int argc, char **argv){
     

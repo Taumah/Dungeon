@@ -21,4 +21,4 @@ run:
 	@./${executable}
 
 all: 
-	make -s compile && make -s run
+	@make -s compile && make -s run
